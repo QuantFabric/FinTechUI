@@ -268,6 +268,7 @@ protected:
         verticalHeader()->hide();
         setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
         setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+        connect(this, &QAbstractItemView::doubleClicked, this, &FrozenTableView::doubleClicked);
     }
 
     void InitFrozenTableView()
@@ -309,6 +310,7 @@ protected:
                     verticalScrollBar(), &QAbstractSlider::setValue);
             connect(verticalScrollBar(), &QAbstractSlider::valueChanged,
                     m_frozenTableView->verticalScrollBar(), &QAbstractSlider::setValue);
+            connect(m_frozenTableView, &QAbstractItemView::doubleClicked, this, &FrozenTableView::doubleClicked);
         }
         else
         {
@@ -328,7 +330,7 @@ protected:
                                     viewport()->height() + horizontalHeader()->height());
     }
 
-protected:
+public:
     virtual void resizeEvent(QResizeEvent *event)
     {
         QTableView::resizeEvent(event);
@@ -357,6 +359,10 @@ protected:
         if(index.column() >= m_frozenColumns)
         {
             QTableView::scrollTo(index, hint);
+        }
+        else if(m_frozenTableView != NULL)
+        {
+            m_frozenTableView->scrollTo(index, hint); 
         }
     }
 protected slots:
@@ -396,6 +402,8 @@ protected slots:
             }
         }
     }
+signals:
+    void doubleClicked(const QModelIndex &index);
 protected:
     QTableView* m_frozenTableView;
     int m_frozenColumns;
