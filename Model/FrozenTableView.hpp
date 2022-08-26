@@ -269,6 +269,7 @@ protected:
         setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
         setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
         connect(this, &QAbstractItemView::doubleClicked, this, &FrozenTableView::doubleClicked);
+        connect(this, &QAbstractItemView::clicked, this, &FrozenTableView::clicked);
     }
 
     void InitFrozenTableView()
@@ -311,6 +312,7 @@ protected:
             connect(verticalScrollBar(), &QAbstractSlider::valueChanged,
                     m_frozenTableView->verticalScrollBar(), &QAbstractSlider::setValue);
             connect(m_frozenTableView, &QAbstractItemView::doubleClicked, this, &FrozenTableView::doubleClicked);
+            connect(m_frozenTableView, &QAbstractItemView::clicked, this, &FrozenTableView::clicked);
         }
         else
         {
@@ -404,6 +406,7 @@ protected slots:
     }
 signals:
     void doubleClicked(const QModelIndex &index);
+    void clicked(const QModelIndex &index);
 protected:
     QTableView* m_frozenTableView;
     int m_frozenColumns;
