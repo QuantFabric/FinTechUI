@@ -358,13 +358,14 @@ public:
 
     virtual void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible)
     {
-        if(index.column() >= m_frozenColumns)
+        if(m_frozenColumns == 0)
         {
             QTableView::scrollTo(index, hint);
         }
         else if(m_frozenTableView != NULL)
         {
             m_frozenTableView->scrollTo(index, hint); 
+            QTableView::scrollTo(index, hint);
         }
     }
 protected slots:
